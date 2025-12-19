@@ -1,7 +1,7 @@
 python-telegram-bot
 ccxt
 pandas
-pandas_ta
+pandas-ta
 aiosqlite
 python-dotenv
 numpy
