@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  futures-analyzer:
+    container_name: futures-analyzer-bot
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    command: python main.py

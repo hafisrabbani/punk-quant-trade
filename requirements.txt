@@ -6,3 +6,5 @@ aiosqlite
 python-dotenv
 numpy
 APScheduler
+matplotlib
+mplfinance
