@@ -1,0 +1,8 @@
+python-telegram-bot
+ccxt
+pandas
+pandas_ta
+aiosqlite
+python-dotenv
+numpy
+APScheduler
