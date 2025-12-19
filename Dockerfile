@@ -4,6 +4,7 @@ FROM python:3.11-slim
 # System dependencies
 # =========================
 RUN apt-get update && apt-get install -y \
+    git \
     build-essential \
     gcc \
     g++ \
@@ -14,6 +15,11 @@ RUN apt-get update && apt-get install -y \
 # Working directory
 # =========================
 WORKDIR /app
+
+# =========================
+# Upgrade pip
+# =========================
+RUN pip install --upgrade pip
 
 # =========================
 # Python dependencies
