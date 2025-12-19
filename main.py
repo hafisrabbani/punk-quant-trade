@@ -46,6 +46,40 @@ processed_candles = {}
 # HELPER
 # ======================
 
+async def global_error_handler(update: object, context: ContextTypes.DEFAULT_TYPE):
+    """
+    Catch ALL unhandled exceptions from:
+    - commands
+    - jobs
+    - callbacks
+    - background tasks
+    """
+
+    error = context.error
+
+    logging.exception("Unhandled exception", exc_info=error)
+
+    msg = (
+        "🚨 **GLOBAL BOT ERROR**\n"
+        "------------------------------\n"
+        f"❗ **Unhandled Exception**\n\n"
+        f"🧾 Error:\n"
+        f"`{str(error)[:3500]}`\n\n"
+    )
+
+    if update:
+        msg += f"📩 Update Type: `{type(update).__name__}`\n"
+
+    try:
+        await context.bot.send_message(
+            chat_id=CHAT_ID,
+            text=msg,
+            parse_mode="Markdown"
+        )
+    except Exception as e:
+        logging.error("Failed to send global error alert: %s", e)
+
+
 def safe_symbol(symbol: str) -> str:
     """
     ALPACA/USDT:USDT -> ALPACA_USDT
@@ -284,6 +318,8 @@ if __name__ == "__main__":
     app.add_handler(CommandHandler("setpairs", setpairs_command))
     app.add_handler(CommandHandler("settf", settf_command))
 
+    app.add_error_handler(global_error_handler)
+    
     app.job_queue.run_repeating(
         market_scanner,
         interval=SCAN_INTERVAL,
